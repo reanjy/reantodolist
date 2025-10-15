@@ -1,112 +1,239 @@
+/* ===== Reset dasar ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ===== Tampilan utama ===== */
 body {
   font-family: "Poppins", sans-serif;
-  background: #eef2f3;
+  background: #f0f4f8; /* Sedikit lebih lembut */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
 }
 
+/* ===== Container utama ===== */
 .container {
   background: white;
-  width: 350px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Lebar maksimal agar tidak terlalu lebar di layar besar */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* ===== Judul ===== */
 h1 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 28px;
 }
 
+/* ===== Bagian input ===== */
 .input-container {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Memastikan responsif jika layar kecil */
 }
 
 #taskInput {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
+  flex: 3 1 300px; /* Fleksibel, tapi punya basis lebar */
 }
 
+#dateInput,
+#prioritySelect {
+  flex: 1 1 120px; /* Fleksibel dengan basis lebih kecil */
+}
+
+#taskInput,
+#dateInput,
+#prioritySelect {
+  padding: 12px;
+  border: 1px solid #dfe6e9;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#taskInput:focus,
+#dateInput:focus,
+#prioritySelect:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* ===== Tombol tambah ===== */
 #addBtn {
-  padding: 10px 15px;
+  flex-basis: 100%; /* Tombol memenuhi lebar penuh di baris baru */
+  margin-top: 8px; /* Jarak dari input di atasnya */
+  padding: 12px;
   background: #007bff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   color: white;
-  margin-left: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.2s ease-in-out;
+  font-size: 16px;
 }
 
 #addBtn:hover {
   background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
+/* ======================================== */
+/* ===== PERBAIKAN PADA LAYOUT LI DIMULAI DI SINI ===== */
+/* ======================================== */
+
+/* ===== Daftar tugas ===== */
 ul {
   list-style: none;
+  padding: 0;
 }
 
 li {
-  background: #f8f9fa;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #fdfdfd;
+  padding: 15px 20px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #eee;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 15px; /* <== PASTIKAN ADA INI */
 }
 
-li.completed span {
-  text-decoration: line-through;
-  color: gray;
+li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
 }
 
-/* Tombol di sisi kanan */
+/* ===== Wadah untuk semua konten di sisi kiri (teks, tanggal, prioritas) ===== */
+.task-content {
+  display: flex;
+  flex-direction: column; /* Konten disusun vertikal */
+  gap: 8px; /* Jarak antara teks dan info (baris bawah) */
+  flex-grow: 1; /* Mengambil sisa ruang yang tersedia */
+}
+
+/* ===== Teks tugas utama ===== */
+.task-text {
+  font-weight: 500;
+  color: #34495e;
+  font-size: 16px;
+  cursor: pointer;
+  word-break: break-word; /* Mencegah teks panjang merusak layout */
+}
+
+/* ===== Wadah untuk informasi tambahan (tanggal & prioritas) ===== */
+.task-info {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Jarak antara tanggal dan prioritas */
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+/* ===== Info tanggal ===== */
+.task-info .date {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Jarak antara ikon dan teks tanggal */
+}
+
+.task-info .date::before {
+  content: "📅";
+  font-size: 15px;
+}
+
+/* ===== Label Prioritas ===== */
+.priority {
+  padding: 4px 10px;
+  border-radius: 20px; /* Bentuk kapsul/pil */
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.priority.Tinggi {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.priority.Sedang {
+  background: #fff8e1;
+  color: #f9a825;
+}
+
+.priority.Rendah {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+
+/* ===== Grup tombol (Edit & Hapus) - Wadah di sisi kanan ===== */
 .button-group {
   display: flex;
-  gap: 5px;
+  gap: 8px;
+  flex-shrink: 0; /* Mencegah tombol menyusut */
 }
 
-/* Tombol Edit */
+/* ===== Styling umum untuk tombol di dalam list ===== */
+.button-group button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  font-size: 18px; /* Ukuran ikon/emoji lebih besar */
+  background: none; /* Hilangkan background default */
+  color: #7f8c8d;
+}
+
+.button-group button:hover {
+  transform: scale(1.15);
+}
+
+/* ===== Tombol Edit dan Hapus ===== */
 button.edit {
-  background: #28a745;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  padding: 5px 8px;
-  cursor: pointer;
-  transition: 0.2s;
+  color: #f9a825;
 }
-
 button.edit:hover {
-  background: #218838;
+  color: #e67e22;
 }
-
-/* Tombol Hapus */
 button.delete {
-  background: #ff4d4d;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  padding: 5px 8px;
-  cursor: pointer;
-  transition: 0.2s;
+  color: #e74c3c;
+}
+button.delete:hover {
+  color: #c0392b;
 }
 
-button.delete:hover {
-  background: #d93636;
+
+/* ===== Jika tugas selesai ===== */
+li.completed .task-text {
+  text-decoration: line-through;
+  color: #95a5a6;
+}
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0; /* Mencegah checkbox mengecil */
+  cursor: pointer;
+  accent-color: #007bff; /* Memberi warna pada checkbox saat dicentang */
+}
+
+li.completed .task-text {
+  text-decoration: line-through;
+  color: #95a5a6;
 }
