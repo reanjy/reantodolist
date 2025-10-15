@@ -25,6 +25,22 @@ function addTask() {
     li.classList.toggle("completed");
   });
 
+  // Grup tombol (Edit + Hapus)
+  const buttonGroup = document.createElement("div");
+  buttonGroup.classList.add("button-group");
+
+  // Tombol Edit
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.classList.add("edit");
+  editBtn.addEventListener("click", () => {
+    const newTask = prompt("Edit tugas:", span.textContent);
+    if (newTask !== null && newTask.trim() !== "") {
+      span.textContent = newTask.trim();
+    }
+  });
+
+  // Tombol Hapus
   const delBtn = document.createElement("button");
   delBtn.textContent = "Hapus";
   delBtn.classList.add("delete");
@@ -32,8 +48,13 @@ function addTask() {
     li.remove();
   });
 
+  // Tambahkan tombol ke grup
+  buttonGroup.appendChild(editBtn);
+  buttonGroup.appendChild(delBtn);
+
+  // Gabungkan ke li
   li.appendChild(span);
-  li.appendChild(delBtn);
+  li.appendChild(buttonGroup);
   taskList.appendChild(li);
 
   taskInput.value = "";
